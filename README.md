@@ -1,1 +1,1 @@
-# Semi-Parametric estimation of a isotropic Spatio-Temporal Hawkes process on a road-network
+# Semi-parametric estimation of an isotropic Spatio-Temporal Hawkes process on a road network
