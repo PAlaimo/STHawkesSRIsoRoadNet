@@ -1,6 +1,6 @@
 # Semi-parametric estimation of an isotropic Spatio-Temporal Hawkes process for car accidents on a road network
 The social costs associated with the occurrence of road accidents are huge, both in terms of economic damage and death toll. 
-The monitoring of road accident occurrences is then essential for the identification of crash hot spots and of their determinants. Accurate modeling can help in understanding their distribution and favor the timely implementation of prevention policies. Recent technological developments enable straightforward and cheap ways of recording the exact space-time location of the vehicles at the moment of an accident, favouring the implementation of advanced statistical techniques to model the dynamics of the accident occurrences. The most natural way to model an observed point pattern is represented by spatio-temporal point processes.
+The monitoring of road accident occurrences is then essential for the identification of crash hot spots and of their determinants. Accurate modelling can help in understanding their distribution and favour the timely implementation of prevention policies. Recent technological developments enable straightforward and cheap ways of recording the exact space-time location of the vehicles at the moment of an accident, favouring the implementation of advanced statistical techniques to model the dynamics of the accident occurrences. The most natural way to model an observed point pattern is represented by spatio-temporal point processes.
 A very interesting challenge in modelling road accidents is understanding whether the occurrence of an event increases the risk of other events in its proximity and, if so, quantifying the number of subsequent crashes that have been triggered by the first occurrence. This sort of cascading effect might be due to the direct effect of the original crash or its indirect consequences: increased traffic congestion, lane reduction, reduced visibility, rubbernecking, etc. This particular dynamic in point processes is known as self-excitation and it is the defining property of the Hawkes process.
 In particular, a spatio-temporal Hawkes process able to account for the typical (spatial and temporal) pattern of road-accidents and the road-network topology is needed to make valid inference on the data generative process.
 
@@ -19,7 +19,7 @@ The spatial excitation function depends on the Euclidean distance between the pr
 $$g_s\left(\boldsymbol{s}'-\boldsymbol{s}\right)=g_s\left( ||\boldsymbol{s}'-\boldsymbol{s}||\right)=g_s\left(\sqrt{(x'-x)^2+(y'-y)^2}\right),$$
 so that $g_s(\cdot):\mathbb{R}^+\rightarrow [0,+\infty)$.
 
-Let $\boldsymbol{x}_{i}$ be a $(k+1)\times 1)$ vector of covariates available on each event, we can express:
+Let $\boldsymbol{x}_{i}$ be a $((k+1)\times 1)$ vector of covariates available on each event, we can express:
 $$\log\left( A_i\right) = \boldsymbol{x}_i^\top\cdot\boldsymbol{\beta},\quad  i=1,\dots, n,$$
 as in a Generalized Linear Model, with $\boldsymbol{\beta}$ as a vector of intercept and coefficients.
 
