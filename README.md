@@ -4,7 +4,8 @@ The monitoring of road accident occurrences is then essential for the identifica
 A very interesting challenge in modelling road accidents is understanding whether the occurrence of an event increases the risk of other events in its proximity and, if so, quantifying the number of subsequent crashes that have been triggered by the first occurrence. This sort of cascading effect might be due to the direct effect of the original crash or its indirect consequences: increased traffic congestion, lane reduction, reduced visibility, rubbernecking, etc. This particular dynamic in point processes is known as self-excitation and it is the defining property of the Hawkes process.
 In particular, a spatio-temporal Hawkes process able to account for the typical (spatial and temporal) pattern of road-accidents and the road-network topology is needed to make valid inference on the data generative process.
 
-We here provide a sketch of the model and the algorithms needed to estimate it non-parametrically on an example dataset that contains road accidents occurred in the Municipio I and Municipio II of the City of Rome in April 2019.
+We here provide a sketch of the semi-parametric spatio-temporal Hawkes Process we might consider.
+The repository contains the algorithms to estimate the model on an example dataset that contains the road accidents that occurred in Municipio I and Municipio II of the City of Rome in April 2019.
 
 ## The periodic spatio-temporal Hawkes process
 
