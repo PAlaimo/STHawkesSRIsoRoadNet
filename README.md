@@ -12,7 +12,7 @@ We seek to model the occurrence of traffic collisions over a spatio-temporal dom
 We assume that the number of car-crashes $N(B\times[t_1,t_2])$, where $B\subset\mathcal{D}$ and $[t_1,t_2]\subset\mathcal{T}$, is the result of a simple and (locally) finite spatio-temporal point process. It can be defined through the suitable specification of the conditional intensity function $\lambda_c(\boldsymbol{s}, t)$.
 
 In particular, we express these two components as in the semi-parametric spatio-temporal periodic Hawkes Process:
-$$\lambda_c(\boldsymbol{s}, t)=\mu_0\cdot\mu_{s}(\boldsymbol{s})\cdot\mu_t\lrnd t\rrnd + A\cdot\int_0^t\int_\mathcal{D} g_s(\boldsymbol{s}-\boldsymbol{u})\cdot g_t(t-\tau) N\left( d \boldsymbol{u}\times d \tau\right),$$
+$$\lambda_c(\boldsymbol{s}, t)=\mu_0\cdot\mu_{s}(\boldsymbol{s})\cdot\mu_t\left( t\right) + A\cdot\int_0^t\int_\mathcal{D} g_s(\boldsymbol{s}-\boldsymbol{u})\cdot g_t(t-\tau) N\left( d \boldsymbol{u}\times d \tau\right),$$
 where $\mu_s(\cdot), \mu_t(\cdot)$ are the spatial and temporal background intensities such that their average value over $\mathcal{D}$ and $\mathcal{T}$ is $1$, $g_s(\cdot), g_t(\cdot)$ are the spatial and temporal excitation functions such that their integral over $\mathcal{D}$ and $\mathcal{T}$ is $1$, and $\mu_0,\, A>0$ are two real-valued parameters that regulate the overall level of the background and the excitation.
 The spatial excitation function depends on the Euclidean distance between the primary event and nearby locations:
 $$g_s\left(\boldsymbol{s}'-\boldsymbol{s}\right)=g_s\left( ||\boldsymbol{s}'-\boldsymbol{s}||\right)=g_s\left(\sqrt{(x'-x)^2+(y'-y)^2}\right),$$
