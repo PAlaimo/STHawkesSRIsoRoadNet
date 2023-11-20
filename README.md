@@ -17,7 +17,7 @@ $$\lambda_c(\boldsymbol{s}, t)=\mu_0\cdot\mu_{s}(\boldsymbol{s})\cdot\mu_t\left(
 where $\mu_s(\cdot), \mu_t(\cdot)$ are the spatial and temporal background intensities such that their average value over $\mathcal{D}$ and $\mathcal{T}$ is $1$, $g_s(\cdot), g_t(\cdot)$ are the spatial and temporal excitation functions such that their integral over $\mathcal{D}$ and $\mathcal{T}$ is $1$, and $\mu_0,\, A>0$ are two real-valued parameters that regulate the overall level of the background and the excitation.
 The spatial excitation function depends on the Euclidean distance between the primary event and nearby locations:
 $$g_s\left(\boldsymbol{s}'-\boldsymbol{s}\right)=g_s\left( ||\boldsymbol{s}'-\boldsymbol{s}||\right)=g_s\left(\sqrt{(x'-x)^2+(y'-y)^2}\right),$$
-so that $g_s(\cdot)\,:\,\mathbb{R}^+\rightarrow [0,+\infty)$.
+so that $g_s(\cdot):\mathbb{R}^+\rightarrow [0,+\infty)$.
 
 Let $\boldsymbol{x}_{i}$ be a $(k+1)\times 1)$ vector of covariates available on each event, we can express:
 $$\log\left( A_i\right) = \boldsymbol{x}_i^\top\cdot\boldsymbol{\beta},\quad  i=1,\dots, n,$$
