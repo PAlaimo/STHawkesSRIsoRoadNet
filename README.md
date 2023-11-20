@@ -9,7 +9,7 @@ We here provide a sketch of the model and the algorithms needed to estimate it n
 ## The periodic spatio-temporal Hawkes process
 
 We seek to model the occurrence of traffic collisions over a spatio-temporal domain $\mathcal{Q}=\mathcal{D}\times\mathcal{T}$, where $\mathcal{D}\subseteq\mathbb{R}^2$ denotes the spatial dimension and $\mathcal{T}=[0, T]$ the temporal dimension.
-We assume that the number of car-crashes $N(B\times[t_1,t_2])$, where $B\subset\mathcal{D}$ and $[t_1,t_2]\subset\calT$, is the result of a simple and (locally) finite spatio-temporal point process. It can be defined through the suitable specification of the conditional intensity function $\lambda_c(\boldsymbol{s}, t)$.
+We assume that the number of car-crashes $N(B\times[t_1,t_2])$, where $B\subset\mathcal{D}$ and $[t_1,t_2]\subset\mathcal{T}$, is the result of a simple and (locally) finite spatio-temporal point process. It can be defined through the suitable specification of the conditional intensity function $\lambda_c(\boldsymbol{s}, t)$.
 
 In particular, we express these two components as in the semi-parametric spatio-temporal periodic Hawkes Process:
 $$\lambda_c(\boldsymbol{s}, t)=\mu_0\cdot\mu_{s}(\boldsymbol{s})\cdot\mu_t\lrnd t\rrnd + A\cdot\int_0^t\int_\mathcal{D} g_s(\boldsymbol{s}-\boldsymbol{u})\cdot g_t(t-\tau) N\left( d \boldsymbol{u}\times d \tau\right),$$
