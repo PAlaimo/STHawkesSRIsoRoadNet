@@ -22,26 +22,6 @@ Rcpp::sourceCpp("auxiliary.cpp")
 
 # Auxiliary ---------------------------------------------------------------
 
-NegLogLikehoodNHPP <- function(x, bENoMu, bANoMu, trig.Lags.NoA, trig.Int.NoA, 
-                               Xmat, Xmat_all, inside, secInside){
-  mulik <- exp(x[1]) # Contraining positivity
-  betalik <- x[2:(ncol(Xmat)+1)]
-  
-  # Weighted logs on the events
-  bE <- mulik * bENoMu
-  tE <- tapply(c(exp(Xmat[secInside,,drop=F]%*%betalik)*trig.Lags.NoA, 
-                 0*(1:nrow(dat[inside,]))), 
-               c(lags$idSecond[secInside], which(inside)), sum) 
-  sloglambdaEv <- sum(log(bE + tE))
-  
-  # Integral on on the space-time
-  tA <- c(exp(Xmat_all[inside,, drop=F]%*%betalik)*trig.Int.NoA)
-  lambdaAll <-  mulik* bANoMu + sum(tA)
-  
-  # Output
-  return(-sloglambdaEv + lambdaAll)
-}
-
 NegLogLikehood <- function(x, bENoMu, bANoMu, tLNoA, trig.Int.NoA, inside, Xmat, Xmat_all, secInside, phiin, rhoin){
   mulik <- exp(x[1]) # Contraining positivity
   betalik <- as.matrix(x[2:(ncol(Xmat)+1)])
@@ -52,7 +32,7 @@ NegLogLikehood <- function(x, bENoMu, bANoMu, tLNoA, trig.Int.NoA, inside, Xmat,
   sloglambdaEv <- slbE + sltE
   
   # Integral on on the space-time
-  tA <- c(exp(Xmat_all[inside,]%*%betalik)*trig.Int.NoA)
+  tA <- c(exp(Xmat_all%*%betalik)*trig.Int.NoA)
   lambdaAll <-  mulik* bANoMu + sum(tA)
   
   # Output
@@ -208,20 +188,22 @@ tempbgseq <- seq(0, max(base.trend[buf_trend_smooth]), by=min(step.daily, step.w
 back.All.NoMu <- sum(value.background[grid.Inpoly]*step.x*step.y, na.rm = T)*
   sum(fun.trend(tempbgseq)*fun.daily(tempbgseq-floor(tempbgseq))*fun.weekly(tempbgseq%%7)*step.daily)
 
-# Integration of the temporal triggering
-totalEffects <- data.frame(eventID=which(!dat$InBuf))
+# Set up where to store integrals of excitation
+totalEffects <- data.frame(eventID=1:nrow(dat))
+
 # Temporal triggering
 # Building an approximation to the integral of temporal response from 0 to each t in [0,TT]
 tempk <- cumsum(fun.tempRes(base.tempRes)*step.tempRes)
 fun.intTempRes <- approxfun(base.tempRes, tempk, yleft=0, yright=1)
 rm(tempk)
 # Computing the integral from 0 to T-ti (equivalent to ti to T, given that we start in 0)
-totalEffects$intTempRes <- fun.intTempRes(ceiling(max(base.trend[buf_trend_smooth]))-dat$t[!dat$InBuf])
+totalEffects$intTempRes <- fun.intTempRes(ceiling(max(base.trend[buf_trend_smooth]))-dat$t)-
+  fun.intTempRes(floor(min(base.trend[buf_trend_smooth]))-dat$t)
 
 # Integration of the spatial triggering
 spatmids <- c(fun.spatRes(base.spatRes[1]), fun.spatRes(base.spatRes[-length(base.spatRes)])+diff(fun.spatRes(base.spatRes))/2)
 # Integration of spatial response for each event
-totalEffects$intSpatRes <- intPointsSpaTrig[!dat$InBuf,]%*%spatmids
+totalEffects$intSpatRes <- intPointsSpaTrig%*%spatmids
 # Combining temporal and spatial triggering
 totalEffects$intRes <- totalEffects$intTempRes*totalEffects$intSpatRes
 
@@ -375,19 +357,20 @@ for(i in 2:M){
   back.All.NoMu <- sum(value.background[grid.Inpoly]*step.x*step.y, na.rm = T)*
     sum(fun.trend(tempbgseq)*fun.daily(tempbgseq-floor(tempbgseq))*fun.weekly(tempbgseq%%7)*step.daily)
   
-  # Integration of the triggering
-  totalEffects <- data.frame(eventID=which(!dat$InBuf))
+
+  # # Integration of the triggering
   # Temporal triggering
   # Building an approximation to the integral of temporal response from 0 to each t in [0,TT]
   tempk <- cumsum(fun.tempRes(base.tempRes)*step.tempRes)
   fun.intTempRes <- approxfun(base.tempRes, tempk, yleft=0, yright=1)
   rm(tempk)
   # Computing the integral from 0 to T-ti (equivalent to ti to T, given that we start in 0)
-  totalEffects$intTempRes <- fun.intTempRes(ceiling(max(base.trend[buf_trend_smooth]))-dat$t[!dat$InBuf])
+  totalEffects$intTempRes <- fun.intTempRes(ceiling(max(base.trend[buf_trend_smooth]))-dat$t)-
+    fun.intTempRes(floor(min(base.trend[buf_trend_smooth]))-dat$t)
   # Computing the integral from 0 to T-ti (equivalent to ti to T, given that we start in 0)
   # Integration of spatial response for each event
   spatmids <- c(fun.spatRes(base.spatRes[1]), fun.spatRes(base.spatRes[-length(base.spatRes)])+diff(fun.spatRes(base.spatRes))/2)
-  totalEffects$intSpatRes <- intPointsSpaTrig[!dat$InBuf,]%*%spatmids
+  totalEffects$intSpatRes <- intPointsSpaTrig%*%spatmids
   # Combining temporal and spatial response
   totalEffects$intRes <- totalEffects$intTempRes*totalEffects$intSpatRes
   
@@ -429,4 +412,3 @@ save(dat, dataTogrid, ll, lags, mustar, betastar,
      base.x, base.y, value.background, 
      fun.tempRes, fun.spatRes, NegLogLikehood,
      file = "WS/model_results_42019.RData")
-
