@@ -66,7 +66,9 @@ dat <- read_csv("Data/roadaccidents_m1m2_42019.csv")
 # Rename everything and scale times to be in days
 dat <- dat %>%
   mutate(tNumModScale = (as.numeric(DataOraIncidente) - as.numeric(ymd_hms("2019-04-01 00:00:00"))),
-         t = tNumModScale/(3600*24)) %>% rename(x = xutm, y = yutm)
+         t = tNumModScale/(3600*24)+runif(n(), -0.01, 0.01),
+         xutm = xutm + runif(n(), -0.02, 0.02),
+         yutm = yutm + runif(n(), -0.02, 0.02)) %>% rename(x = xutm, y = yutm) %>% arrange(t)
 
 # Define temporal background grid ----------------------------------------------------------
 
@@ -192,7 +194,6 @@ repSpatTrig <- parallel::mclapply(base.spatRes, function(i)
 # ##### WINDOWS #####
 
 # Calculate spatial excitation integration points of all events
-# foocrds <- st_coordinates(foo)
 dfac <- factor(base.spatRes)
 oop <- tibble(x=0, y=0) %>% st_as_sf(coords=c("x", "y"), crs=crs_streetnet)
 spatCrowns <- map_dfr(1:length(base.spatRes), \(j) 
@@ -215,7 +216,7 @@ intPointsSpaTrig <- parallel::mclapply(1:nrow(foo), function(i){ # Time consumin
 # ##### WINDOWS #####
 # cl <- makeCluster(n_cores-2)
 # registerDoParallel(cl)
-# clusterExport(cl = cl, c("dfac", "roadcellspIn", "foo", "base.spatRes", 
+# clusterExport(cl = cl, c("dfac", "roadcellspIn", "foo", "base.spatRes",
 #                          "spatCrowns", "crs_streetnet"),
 #               envir = .GlobalEnv)
 # clusterEvalQ(cl, library("tidyverse"))
@@ -226,7 +227,7 @@ intPointsSpaTrig <- parallel::mclapply(1:nrow(foo), function(i){ # Time consumin
 #   st_geometry(crownsnow) <- (spatCrowns$geometry + foo[i,]$geometry)
 #   st_crs(crownsnow) <- crs_streetnet
 #   temp <- st_intersection(crownsnow, roadcellspIn)
-#   temp %>% mutate(A=as.numeric(st_area(.))) %>% as_tibble() %>% group_by(d, .drop=F) %>% 
+#   temp %>% mutate(A=as.numeric(st_area(.))) %>% as_tibble() %>% group_by(d, .drop=F) %>%
 #     summarise(A=sum(A)) %$% A
 # }) %>% do.call(what = rbind, args = .)
 # stopCluster(cl)
