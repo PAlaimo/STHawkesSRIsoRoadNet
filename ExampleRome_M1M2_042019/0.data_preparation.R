@@ -63,6 +63,7 @@ grid.Inpoly <- st_intersects(roadcells, shp_munic, sparse = F, model = "open")
 # Loading Data ------------------------------------------------------------
 
 dat <- read_csv("Data/roadaccidents_m1m2_42019.csv")
+set.seed(130494)
 # Rename everything and scale times to be in days
 dat <- dat %>%
   mutate(tNumModScale = (as.numeric(DataOraIncidente) - as.numeric(ymd_hms("2019-04-01 00:00:00"))),
