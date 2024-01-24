@@ -184,7 +184,7 @@ trig.Lags.NoA <- (fun.tempRes(lags$timeLags[!lags$InBuf])*fun.spatRes(lags$dxy[!
 # Lambda integrated: second term of log-likelihood-------------------
 # Integration of the background
 
-tempbgseq <- seq(0, max(base.trend[buf_trend_smooth]), by=min(step.daily, step.weekly, step.trend))
+tempbgseq <- seq(0, max(base.trend[buf_trend_smooth]), by=step.daily)
 back.All.NoMu <- sum(value.background[grid.Inpoly]*step.x*step.y, na.rm = T)*
   sum(fun.trend(tempbgseq)*fun.daily(tempbgseq-floor(tempbgseq))*fun.weekly(tempbgseq%%7)*step.daily)
 
