@@ -164,7 +164,7 @@ gc()
 
 #----------------- Repetition correction ------------------
 # Temporal repetition correction
-repTempTrig <- sapply(base.tempRes, function(i) sum((i+dat$t)<end.trend))
+repTempTrig <- sapply(base.tempRes, function(i) sum((i+dat$t)<end.trend & (i+dat$t)>=0))
 
 # Spatial repetition correction
 ##### ONLY LINUX #####
@@ -172,7 +172,7 @@ repTempTrig <- sapply(base.tempRes, function(i) sum((i+dat$t)<end.trend))
 repSpatTrig <- parallel::mclapply(base.spatRes, function(i)
 {
   temp <- st_buffer(foo, i) %>% st_cast("LINESTRING")
-  sum(st_length(st_intersection(roadcellsp, temp)))
+  sum(st_length(st_intersection(roadcellspIn, temp)))
 }, mc.cores = n_cores) %>% unlist()
 ##### ONLY LINUX #####
 
@@ -181,7 +181,7 @@ repSpatTrig <- parallel::mclapply(base.spatRes, function(i)
 # ##### WINDOWS #####
 # cl <- makeCluster(n_cores-2)
 # registerDoParallel(cl)
-# clusterExport(cl = cl, c("roadcellsp", "foo"),
+# clusterExport(cl = cl, c("roadcellspIn", "foo"),
 #               envir = .GlobalEnv)
 # clusterEvalQ(cl, library("tidyverse"))
 # clusterEvalQ(cl, library("magrittr"))
@@ -189,7 +189,7 @@ repSpatTrig <- parallel::mclapply(base.spatRes, function(i)
 # repSpatTrig <- parLapply(cl=cl, base.spatRes, function(i)
 # {
 #   temp <- st_buffer(foo, i) %>% st_cast("LINESTRING")
-#   sum(st_length(st_intersection(roadcellsp, temp)))
+#   sum(st_length(st_intersection(roadcellspIn, temp)))
 # }) %>% unlist()
 # stopCluster(cl)
 # ##### WINDOWS #####
